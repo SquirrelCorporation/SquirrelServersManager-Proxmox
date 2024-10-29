@@ -84,18 +84,19 @@ $STD npm install -g typescript
 $STD npm install pm2 -g
 cd /opt/squirrelserversmanager/shared-lib
 $STD npm ci
-$STD npm build
+$STD npm run build
 cd /opt/squirrelserversmanager/client
 $STD npm ci
-$STD npm build
+$STD npm run build
 $STD pm2 start --name="squirrelserversmanager-frontend" npm -- run serve
 cd /opt/squirrelserversmanager/server
 $STD npm ci
-$STD npm build
+$STD npm run build
 $STD pm2 start --name="squirrelserversmanager-backend" node -- ./dist/src/index.js
 $STD pm2 startup
 $STD pm2 save
 rm -rf /etc/nginx/conf.d/default.conf
+cp /opt/squirrelserversmanager/proxy/www/index.html /usr/share/nginx/html/custom.html
 cat <<'EOF' >/etc/nginx/conf.d/default.conf
 server {
   listen 8000;
