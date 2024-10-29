@@ -19,7 +19,7 @@ EOF
 header_info
 echo -e "Loading..."
 APP="Squirrel Servers Manager"
-var_disk="8"
+var_disk="10"
 var_cpu="2"
 var_ram="2048"
 var_os="alpine"
