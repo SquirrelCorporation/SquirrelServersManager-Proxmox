@@ -44,6 +44,46 @@ msg_ok "Installed Redis"
 
 msg_info "Installing Nginx"
 $STD apk add nginx
+rm -rf /etc/nginx/conf.d/default.conf
+cat <<EOF > /etc/nginx/conf.d/default.conf
+server {
+  listen 8000;
+  server_name localhost;
+  access_log off;
+  error_log off;
+
+ location /api/socket.io/ {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $host;
+
+      proxy_pass http://127.0.0.1:3000/socket.io/;
+
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+  }
+
+  location /api/ {
+    proxy_pass http://127.0.0.1:3000/;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
+
+  location / {
+    proxy_pass http://127.0.0.1:8000/;
+
+    # WebSocket support
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+
+    error_page 501 502 503 404 /custom.html;
+    location = /custom.html {
+            root /usr/share/nginx/html;
+    }
+  }
+}
+
+EOF
 msg_ok "Installed Nginx"
 
 msg_info "Installing MongoDB Database"
@@ -97,46 +137,7 @@ $STD pm2 startup
 $STD pm2 save
 mkdir -p /usr/share/nginx/html/
 cp /opt/squirrelserversmanager/proxy/www/index.html /usr/share/nginx/html/custom.html
-rm -rf /etc/nginx/conf.d/default.conf
-cat <<EOF > /etc/nginx/conf.d/default.conf
-server {
-  listen 8000;
-  server_name localhost;
-  access_log off;
-  error_log off;
 
- location /api/socket.io/ {
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header Host $host;
-
-      proxy_pass http://127.0.0.1:3000/socket.io/;
-
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "upgrade";
-  }
-
-  location /api/ {
-    proxy_pass http://127.0.0.1:3000/;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  }
-
-  location / {
-    proxy_pass http://127.0.0.1:8000/;
-
-    # WebSocket support
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-
-    error_page 501 502 503 404 /custom.html;
-    location = /custom.html {
-            root /usr/share/nginx/html;
-    }
-  }
-}
-
-EOF
 
 $STD rc-service nginx start
 $STD rc-update add nginx default
