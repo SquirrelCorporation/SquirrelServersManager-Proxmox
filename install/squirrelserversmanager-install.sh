@@ -95,10 +95,10 @@ $STD npm run build
 $STD pm2 start --name="squirrelserversmanager-backend" node -- ./dist/src/index.js
 $STD pm2 startup
 $STD pm2 save
-rm -rf /etc/nginx/conf.d/default.conf
 mkdir -p /usr/share/nginx/html/
 cp /opt/squirrelserversmanager/proxy/www/index.html /usr/share/nginx/html/custom.html
-cat <<'EOF' >/etc/nginx/conf.d/default.conf
+rm -rf /etc/nginx/conf.d/default.conf
+cat <<EOF > /etc/nginx/conf.d/default.conf
 server {
   listen 8000;
   server_name localhost;
@@ -137,6 +137,7 @@ server {
 }
 
 EOF
+
 $STD rc-service nginx start
 $STD rc-update add nginx default
 msg_ok "Installed Squirrel Servers Manager"
