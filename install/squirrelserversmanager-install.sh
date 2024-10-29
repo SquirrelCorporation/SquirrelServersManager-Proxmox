@@ -117,7 +117,7 @@ DB_PORT=27017
 REDIS_HOST=127.0.0.1
 REDIS_PORT=6379
 EOF
-msg_info cat /opt/squirrelserversmanager/.env
+$STD cat /opt/squirrelserversmanager/.env
 export NODE_ENV=production
 export $(grep -v '^#' /opt/squirrelserversmanager/.env | xargs)
 $STD npm install -g npm@latest
