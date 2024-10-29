@@ -47,7 +47,7 @@ $STD apk add nginx
 rm -rf /etc/nginx/http.d/default.conf
 cat <<'EOF'> /etc/nginx/http.d/default.conf
 server {
-  listen 8000;
+  listen 80;
   server_name localhost;
   access_log off;
   error_log off;
