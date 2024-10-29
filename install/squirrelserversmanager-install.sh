@@ -117,14 +117,9 @@ DB_PORT=27017
 REDIS_HOST=127.0.0.1
 REDIS_PORT=6379
 EOF
+msg_info cat /opt/squirrelserversmanager/.env
 export NODE_ENV=production
-# Source the .env file line by line
-while IFS= read -r line; do
-  # Ignore lines starting with #
-  if [[ ! $line =~ ^# ]]; then
-    export "$line"
-  fi
-done < /opt/squirrelserversmanager/.env
+export $(grep -v '^#' /opt/squirrelserversmanager/.env | xargs)
 $STD npm install -g npm@latest
 $STD npm install -g @umijs/max
 $STD npm install -g typescript
