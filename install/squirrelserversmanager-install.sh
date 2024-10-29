@@ -20,6 +20,7 @@ generate_random_string() {
 }
 
 msg_info "Installing Dependencies"
+$STD apk add git
 $STD apk add nodejs
 $STD apk add npm
 $STD apk add ansible
