@@ -105,19 +105,17 @@ msg_ok "Started Services"
 msg_info "Installing Squirrel Servers Manager"
 $STD git clone https://github.com/SquirrelCorporation/SquirrelServersManager.git /opt/squirrelserversmanager
 cat <<EOF > /opt/squirrelserversmanager/.env
-# SECRETS
 SECRET=$(generate_random_string 32)
 SALT=$(generate_random_string 16)
 VAULT_PWD=$(generate_random_string 32)
-# MONGO
 DB_HOST=127.0.0.1
 DB_NAME=ssm
 DB_PORT=27017
-# REDIS
 REDIS_HOST=127.0.0.1
 REDIS_PORT=6379
 EOF
 export NODE_ENV=production
+export $(grep -v '^#' /opt/squirrelserversmanager/.env | xargs)
 $STD npm install -g npm@latest
 $STD npm install -g @umijs/max
 $STD npm install -g typescript
