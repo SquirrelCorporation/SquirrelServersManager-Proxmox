@@ -33,6 +33,9 @@ $STD apk add expect
 $STD apk add libcurl
 $STD apk add gcompat
 $STD apk add curl
+$STD git --version
+$STD node --version
+$STD npm --version
 msg_ok "Installed Dependencies"
 
 msg_info "Installing Redis"
