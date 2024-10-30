@@ -21,7 +21,7 @@ echo -e "Loading..."
 APP="Squirrel Servers Manager"
 var_disk="10"
 var_cpu="2"
-var_ram="2048"
+var_ram="4096"
 var_os="alpine"
 var_version="3.19"
 variables
