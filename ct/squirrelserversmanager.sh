@@ -53,24 +53,25 @@ function default_settings() {
 }
 
 function update_script() {
-header_info
-if [[ ! -d /opt/squirrelserversmanager ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
-msg_info "Updating ${APP}"
-systemctl stop squirrelserversmanager.service
-cd /opt/squirrelserversmanager
-git pull &>/dev/null
-cd /opt/squirrelserversmanager/shared-lib
-npm ci &>/dev/null
-npm build
-cd /opt/squirrelserversmanager/server
-npm ci &>/dev/null
-npm build
-cd /opt/squirrelserversmanager/client
-npm ci &>/dev/null
-npm build
-systemctl start squirrelserversmanager.service
-msg_ok "Successfully Updated ${APP}"
-exit
+  header_info
+  if [[ ! -d /opt/squirrelserversmanager ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
+  msg_info "Updating ${APP}"
+  cd /opt/squirrelserversmanager
+  git pull &>/dev/null
+  cd /opt/squirrelserversmanager/shared-lib
+  npm ci &>/dev/null
+  npm build
+  cd /opt/squirrelserversmanager/server
+  npm ci &>/dev/null
+  npm build
+  cd /opt/squirrelserversmanager/client
+  npm ci &>/dev/null
+  npm build
+  pm2 flush
+  pm2 restart "squirrelserversmanager-frontend"
+  pm2 restart "squirrelserversmanager-backend"
+  msg_ok "Successfully Updated ${APP}"
+  exit
 }
 
 start
@@ -82,4 +83,4 @@ pct set $CTID -cores 1
 msg_ok "Set Container to Normal Resources"
 msg_ok "Completed Successfully!\n"
 echo -e "${APP} should be reachable by going to the following URL.
-         ${BL}http://${IP}:8000${CL} \n"
+         ${BL}http://${IP}:80${CL} \n"

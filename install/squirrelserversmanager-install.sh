@@ -107,9 +107,6 @@ $STD git clone https://github.com/SquirrelCorporation/SquirrelServersManager.git
 SECRET=$(generate_random_string 32)
 SALT=$(generate_random_string 16)
 VAULT_PWD=$(generate_random_string 32)
-msg_info "SECRET=$SECRET"
-msg_info "SALT=$SALT"
-msg_info "VAULT_PWD=$VAULT_PWD"
 cat <<EOF > /opt/squirrelserversmanager/.env
 # SECRETS
 SECRET=$SECRET
@@ -144,7 +141,6 @@ $STD pm2 startup
 $STD pm2 save
 mkdir -p /usr/share/nginx/html/
 cp /opt/squirrelserversmanager/proxy/www/index.html /usr/share/nginx/html/custom.html
-
 
 $STD rc-service nginx start
 $STD rc-update add nginx default
