@@ -505,7 +505,7 @@ start() {
   if command -v pveversion >/dev/null 2>&1; then
     if ! (whiptail --backtitle "Proxmox VE Helper Scripts" --title "${APP} LXC" --yesno "To ensure the safety of your system, please use ONLY https://tteck.github.io/Proxmox/\n\nThis will create a New ${APP} LXC. Proceed?" 10 90); then
       clear
-      echo -e "⚠  User exited script \n"
+      echo -e "⚠  User exited script (Install) \n"
       exit
     fi
     SPINNER_PID=""
@@ -515,7 +515,7 @@ start() {
   if ! command -v pveversion >/dev/null 2>&1; then
     if ! (whiptail --backtitle "Proxmox VE Helper Scripts" --title "${APP} LXC UPDATE" --yesno "Support/Update functions for ${APP} LXC.  Proceed?" 10 58); then
       clear
-      echo -e "⚠  User exited script \n"
+      echo -e "⚠  User exited script (Update) \n"
       exit
     fi
     SPINNER_PID=""
