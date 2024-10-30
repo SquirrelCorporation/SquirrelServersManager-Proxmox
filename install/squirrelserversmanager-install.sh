@@ -107,6 +107,9 @@ $STD git clone https://github.com/SquirrelCorporation/SquirrelServersManager.git
 SECRET=$(generate_random_string 32)
 SALT=$(generate_random_string 16)
 VAULT_PWD=$(generate_random_string 32)
+msg_info "SECRET=$SECRET"
+msg_info "SALT=$SALT"
+msg_info "VAULT_PWD=$VAULT_PWD"
 cat <<EOF > /opt/squirrelserversmanager/.env
 # SECRETS
 SECRET=$SECRET
@@ -120,7 +123,6 @@ DB_PORT=27017
 REDIS_HOST=127.0.0.1
 REDIS_PORT=6379
 EOF
-$STD cat /opt/squirrelserversmanager/.env
 export NODE_ENV=production
 export $(grep -v '^#' /opt/squirrelserversmanager/.env | xargs)
 $STD npm install -g npm@latest
