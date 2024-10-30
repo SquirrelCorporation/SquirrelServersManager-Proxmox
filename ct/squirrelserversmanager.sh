@@ -59,7 +59,7 @@ function update_script() {
   pm2 stop "squirrelserversmanager-frontend"
   pm2 stop "squirrelserversmanager-backend"
   cd /opt/squirrelserversmanager
-  git pull &>/dev/null
+  git pull
   cd /opt/squirrelserversmanager/shared-lib
   npm ci &>/dev/null
   npm run build
