@@ -16,7 +16,7 @@ update_os
 # Generate a random string
 generate_random_string() {
     local LENGTH=$1
-    LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c $LENGTH
+  tr -dc A-Za-z0-9 </dev/urandom | head -c ${LENGTH} 2>/dev/null || true
 }
 
 msg_info "Installing Dependencies"
