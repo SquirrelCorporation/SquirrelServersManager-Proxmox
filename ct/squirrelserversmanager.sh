@@ -56,6 +56,8 @@ function update_script() {
   header_info
   if [[ ! -d /opt/squirrelserversmanager ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
   msg_info "Updating ${APP}"
+  pm2 stop "squirrelserversmanager-frontend"
+  pm2 stop "squirrelserversmanager-backend"
   cd /opt/squirrelserversmanager
   git pull &>/dev/null
   cd /opt/squirrelserversmanager/shared-lib
