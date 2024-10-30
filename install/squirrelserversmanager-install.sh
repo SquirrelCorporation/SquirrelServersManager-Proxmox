@@ -33,6 +33,7 @@ $STD apk add expect
 $STD apk add libcurl
 $STD apk add gcompat
 $STD apk add curl
+$STD apk add newt
 $STD git --version
 $STD node --version
 $STD npm --version
