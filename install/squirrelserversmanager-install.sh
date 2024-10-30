@@ -103,7 +103,7 @@ $STD rc-service mongodb start
 $STD rc-update add mongodb default
 msg_ok "Started Services"
 
-msg_info "Installing Squirrel Servers Manager"
+msg_info "Setting Up Squirrel Servers Manager"
 $STD git clone https://github.com/SquirrelCorporation/SquirrelServersManager.git /opt/squirrelserversmanager
 SECRET=$(generate_random_string 32)
 SALT=$(generate_random_string 16)
@@ -127,17 +127,29 @@ $STD npm install -g npm@latest
 $STD npm install -g @umijs/max
 $STD npm install -g typescript
 $STD npm install pm2 -g
+msg_ok "Squirrel Servers Manager Has Been Setup"
+
+msg_info "Building Squirrel Servers Manager Lib"
 cd /opt/squirrelserversmanager/shared-lib
 $STD npm ci
 $STD npm run build
+msg_ok "Squirrel Servers Manager Lib built"
+
+msg_info "Building & Running Squirrel Servers Manager Client"
 cd /opt/squirrelserversmanager/client
 $STD npm ci
 $STD npm run build
 $STD pm2 start --name="squirrelserversmanager-frontend" npm -- run serve
+msg_ok "Squirrel Servers Manager Client Built & Ran"
+
+msg_info "Building & Running Squirrel Servers Manager Server"
 cd /opt/squirrelserversmanager/server
 $STD npm ci
 $STD npm run build
 $STD pm2 start --name="squirrelserversmanager-backend" node -- ./dist/src/index.js
+msg_ok "Squirrel Servers Manager Server Built & Ran"
+
+msg_info "Starting Squirrel Servers Manager"
 $STD pm2 startup
 $STD pm2 save
 mkdir -p /usr/share/nginx/html/
@@ -145,7 +157,7 @@ cp /opt/squirrelserversmanager/proxy/www/index.html /usr/share/nginx/html/custom
 
 $STD rc-service nginx start
 $STD rc-update add nginx default
-msg_ok "Installed Squirrel Servers Manager"
+msg_ok "Squirrel Servers Manager Started"
 
 motd_ssh
 customize
