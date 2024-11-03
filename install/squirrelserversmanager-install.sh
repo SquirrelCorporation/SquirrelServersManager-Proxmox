@@ -34,6 +34,9 @@ $STD apk add libcurl
 $STD apk add gcompat
 $STD apk add curl
 $STD apk add newt
+$STD apk add docker
+$STD apk add docker-cli-compose
+$STD rm -f /usr/lib/python3.12/EXTERNALLY-MANAGED
 $STD git --version
 $STD node --version
 $STD npm --version
@@ -127,6 +130,7 @@ $STD npm install -g npm@latest
 $STD npm install -g @umijs/max
 $STD npm install -g typescript
 $STD npm install pm2 -g
+$STD pip install ansible-runner ansible-runner-http
 msg_ok "Squirrel Servers Manager Has Been Setup"
 
 msg_info "Building Squirrel Servers Manager Lib"
