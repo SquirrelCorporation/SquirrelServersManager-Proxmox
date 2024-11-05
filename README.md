@@ -1,6 +1,6 @@
 # Squirrel Servers Manager - Proxmox Installer
 [Website](https://squirrelserversmanager.io) - [Documentation](https://squirrelserversmanager.io/docs) - [Demo](https://demo.squirrelserversmanager.io) 
-<img src="./client/public/logo.svg" align="right"
+<img src="https://raw.githubusercontent.com/SquirrelCorporation/SquirrelServersManager/refs/heads/master/client/public/logo.svg" align="right"
      alt="SSM by Emmanuel Costa" width="120" height="178">
 
 Squirrel Servers Manager is an all-in-one configuration and container management tool, powered by Ansible and Docker, with a focus on UI/UX.
