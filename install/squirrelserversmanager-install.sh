@@ -107,7 +107,7 @@ $STD rc-update add mongodb default
 msg_ok "Started Services"
 
 msg_info "Setting Up Squirrel Servers Manager"
-$STD git clone https://github.com/SquirrelCorporation/SquirrelServersManager.git /opt/squirrelserversmanager
+$STD git clone --branch release https://github.com/SquirrelCorporation/SquirrelServersManager.git /opt/squirrelserversmanager
 SECRET=$(generate_random_string 32)
 SALT=$(generate_random_string 16)
 VAULT_PWD=$(generate_random_string 32)
