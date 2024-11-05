@@ -6,13 +6,13 @@
 Squirrel Servers Manager is an all-in-one configuration and container management tool, powered by Ansible and Docker, with a focus on UI/UX.
 It is designed to provide a user-friendly alternative to well-known established tools, while being totally open-source and free.
 
---
+---
 
 ```shell
 bash -c "$(wget -qLO - https://github.com/SquirrelCorporation/SquirrelServersManager-Proxmox/raw/main/ct/squirrelserversmanager.sh)"
 ```
 
---
+---
 
 Other softwares are available in https://github.com/SquirrelCorporation/SquirrelServersManager-Proxmox/tree/main/ct
 
