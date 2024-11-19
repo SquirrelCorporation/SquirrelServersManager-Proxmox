@@ -123,6 +123,9 @@ DB_PORT=27017
 # REDIS
 REDIS_HOST=127.0.0.1
 REDIS_PORT=6379
+# SSM CONFIG
+SSM_INSTALL_PATH=/opt/squirrelserversmanager
+SSM_DATA_PATH=/opt/squirrelserversmanager/data
 EOF
 export NODE_ENV=production
 export $(grep -v '^#' /opt/squirrelserversmanager/.env | xargs)
