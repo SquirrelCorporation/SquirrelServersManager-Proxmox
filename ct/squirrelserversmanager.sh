@@ -56,6 +56,7 @@ function update_script() {
   header_info
   if [[ ! -d /opt/squirrelserversmanager ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
   msg_info "Updating ${APP}"
+  pct set $CTID -memory 4096
   pm2 stop "squirrelserversmanager-frontend"
   pm2 stop "squirrelserversmanager-backend"
   cd /opt/squirrelserversmanager
@@ -72,6 +73,7 @@ function update_script() {
   pm2 flush
   pm2 restart "squirrelserversmanager-frontend"
   pm2 restart "squirrelserversmanager-backend"
+  pct set $CTID -memory 2048
   msg_ok "Successfully Updated ${APP}"
   exit
 }
@@ -80,8 +82,8 @@ start
 build_container
 description
 msg_info "Setting Container to Normal Resources"
-pct set $CTID -memory 1024
-pct set $CTID -cores 1
+pct set $CTID -memory 2048
+pct set $CTID -cores 2
 msg_ok "Set Container to Normal Resources"
 msg_ok "Completed Successfully!\n"
 echo -e "${APP} should be reachable by going to the following URL.
