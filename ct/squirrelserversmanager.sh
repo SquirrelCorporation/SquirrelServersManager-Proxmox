@@ -61,13 +61,13 @@ function update_script() {
   cd /opt/squirrelserversmanager
   git pull
   cd /opt/squirrelserversmanager/shared-lib
-  npm ci &>/dev/null
+  npm ci
   npm run build
   cd /opt/squirrelserversmanager/server
-  npm ci &>/dev/null
+  npm ci
   npm run build
   cd /opt/squirrelserversmanager/client
-  npm ci &>/dev/null
+  npm ci
   npm run build
   pm2 flush
   pm2 restart "squirrelserversmanager-frontend"
