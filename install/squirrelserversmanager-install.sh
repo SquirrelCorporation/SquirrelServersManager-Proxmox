@@ -163,7 +163,7 @@ scrape_configs:
       - targets:
           - '127.0.0.1:3000'
 EOF
-$STD pm2 start --name="squirrelserversmanager-prometheus" /opt/prometheus/prometheus --config.file=/etc/prometheus/prometheus.yml
+$STD pm2 start --name="squirrelserversmanager-prometheus" /opt/prometheus/prometheus -- --config.file=/etc/prometheus/prometheus.yml
 msg_ok "Installed Prometheus Database"
 
 msg_info "Building Squirrel Servers Manager Lib"
