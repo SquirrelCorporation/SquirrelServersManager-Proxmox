@@ -112,6 +112,8 @@ $STD git clone --branch release https://github.com/SquirrelCorporation/SquirrelS
 SECRET=$(generate_random_string 32)
 SALT=$(generate_random_string 16)
 VAULT_PWD=$(generate_random_string 32)
+PROMETHEUS_PASSWORD=$(generate_random_string 32)
+PROMETHEUS_USERNAME="ssm_prometheus_user"
 cat <<EOF > /opt/squirrelserversmanager/.env
 # SECRETS
 SECRET=$SECRET
@@ -147,8 +149,6 @@ curl -LJO https://github.com/prometheus/prometheus/releases/download/v3.2.0/prom
 mkdir -p /opt/prometheus
 tar x -f prometheus-3.2.0.linux-amd64.tar.gz -C /opt/prometheus --strip-components=1
 rm -f prometheus-3.2.0.linux-amd64.tar.gz
-PROMETHEUS_PASSWORD=$(generate_random_string 32)
-PROMETHEUS_USERNAME="ssm_prometheus_user"
 mkdir -p /etc/prometheus/
 cat <<EOF > /etc/prometheus/prometheus.yml
 global:
