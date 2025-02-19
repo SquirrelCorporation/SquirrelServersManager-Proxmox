@@ -99,11 +99,32 @@ $STD apk update
 $STD apk add mongodb mongodb-tools
 msg_ok "Installed MongoDB Database"
 
+msg_info "Installing Prometheus Database"
+PROMETHEUS_PASSWORD=$(generate_random_string 32)
+PROMETHEUS_USERNAME="ssm_prometheus_user"
+cat <<EOF > /etc/prometheus/prometheus.yml
+global:
+  scrape_interval: 15s  # How often Prometheus scrapes targets
+
+scrape_configs:
+  - job_name: 'server-metrics' # Server pulling statistics
+    basic_auth:
+      username: "$PROMETHEUS_PASSWORD"
+      password: "$PROMETHEUS_USERNAME"
+    static_configs:
+      - targets:
+          - 'http://127.0.0.1:3000'
+EOF
+$STD apk add prometheus
+msg_ok "Installed Prometheus Database"
+
 msg_info "Starting Services"
 $STD rc-service redis start
 $STD rc-update add redis default
 $STD rc-service mongodb start
 $STD rc-update add mongodb default
+$STD rc-service prometheus start
+$STD rc-update add prometheus default
 msg_ok "Started Services"
 
 msg_info "Setting Up Squirrel Servers Manager"
@@ -126,6 +147,11 @@ REDIS_PORT=6379
 # SSM CONFIG
 SSM_INSTALL_PATH=/opt/squirrelserversmanager
 SSM_DATA_PATH=/opt/squirrelserversmanager/data
+# PROMETHEUS
+PROMETHEUS_HOST=127.0.0.1:9090
+#PROMETHEUS_BASE_URL=/api/v1
+PROMETHEUS_USERNAME=$PROMETHEUS_USERNAME
+PROMETHEUS_PASSWORD=$PROMETHEUS_PASSWORD
 EOF
 export NODE_ENV=production
 export $(grep -v '^#' /opt/squirrelserversmanager/.env | xargs)
