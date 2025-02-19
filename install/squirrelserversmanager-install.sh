@@ -99,29 +99,6 @@ $STD apk update
 $STD apk add mongodb mongodb-tools
 msg_ok "Installed MongoDB Database"
 
-msg_info "Installing Prometheus Database"
-curl -LJO https://github.com/prometheus/prometheus/releases/download/v3.2.0/prometheus-3.2.0.linux-amd64.tar.gz
-mkdir -p /opt/prometheus
-tar x -f prometheus-3.2.0.linux-amd64.tar.gz -C /opt/prometheus --strip-components=1
-rm -f prometheus-3.2.0.linux-amd64.tar.gz
-PROMETHEUS_PASSWORD=$(generate_random_string 32)
-PROMETHEUS_USERNAME="ssm_prometheus_user"
-mkdir -p /etc/prometheus/
-cat <<EOF > /etc/prometheus/prometheus.yml
-global:
-  scrape_interval: 15s  # How often Prometheus scrapes targets
-
-scrape_configs:
-  - job_name: 'server-metrics' # Server pulling statistics
-    basic_auth:
-      username: "$PROMETHEUS_PASSWORD"
-      password: "$PROMETHEUS_USERNAME"
-    static_configs:
-      - targets:
-          - '127.0.0.1:3000'
-EOF
-$STD pm2 start --name="squirrelserversmanager-prometheus" /opt/prometheus/prometheus
-msg_ok "Installed Prometheus Database"
 
 msg_info "Starting Services"
 $STD rc-service redis start
@@ -164,6 +141,30 @@ $STD npm install -g typescript
 $STD npm install pm2 -g
 $STD pip install ansible-runner ansible-runner-http
 msg_ok "Squirrel Servers Manager Has Been Setup"
+
+msg_info "Installing Prometheus Database"
+curl -LJO https://github.com/prometheus/prometheus/releases/download/v3.2.0/prometheus-3.2.0.linux-amd64.tar.gz
+mkdir -p /opt/prometheus
+tar x -f prometheus-3.2.0.linux-amd64.tar.gz -C /opt/prometheus --strip-components=1
+rm -f prometheus-3.2.0.linux-amd64.tar.gz
+PROMETHEUS_PASSWORD=$(generate_random_string 32)
+PROMETHEUS_USERNAME="ssm_prometheus_user"
+mkdir -p /etc/prometheus/
+cat <<EOF > /etc/prometheus/prometheus.yml
+global:
+  scrape_interval: 15s  # How often Prometheus scrapes targets
+
+scrape_configs:
+  - job_name: 'server-metrics' # Server pulling statistics
+    basic_auth:
+      username: "$PROMETHEUS_PASSWORD"
+      password: "$PROMETHEUS_USERNAME"
+    static_configs:
+      - targets:
+          - '127.0.0.1:3000'
+EOF
+$STD pm2 start --name="squirrelserversmanager-prometheus" /opt/prometheus/prometheus
+msg_ok "Installed Prometheus Database"
 
 msg_info "Building Squirrel Servers Manager Lib"
 cd /opt/squirrelserversmanager/shared-lib
