@@ -157,8 +157,8 @@ global:
 scrape_configs:
   - job_name: 'server-metrics' # Server pulling statistics
     basic_auth:
-      username: "$PROMETHEUS_PASSWORD"
-      password: "$PROMETHEUS_USERNAME"
+      username: "$PROMETHEUS_USERNAME"
+      password: "$PROMETHEUS_PASSWORD"
     static_configs:
       - targets:
           - '127.0.0.1:3000'
