@@ -102,6 +102,7 @@ msg_ok "Installed MongoDB Database"
 msg_info "Installing Prometheus Database"
 PROMETHEUS_PASSWORD=$(generate_random_string 32)
 PROMETHEUS_USERNAME="ssm_prometheus_user"
+mkdir -p /etc/prometheus/
 cat <<EOF > /etc/prometheus/prometheus.yml
 global:
   scrape_interval: 15s  # How often Prometheus scrapes targets
