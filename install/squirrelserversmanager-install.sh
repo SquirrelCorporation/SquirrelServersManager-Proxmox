@@ -120,7 +120,7 @@ scrape_configs:
       - targets:
           - '127.0.0.1:3000'
 EOF
-pm2 start /opt/prometheus/prometheus
+$STD pm2 start --name="squirrelserversmanager-prometheus" /opt/prometheus/prometheus
 msg_ok "Installed Prometheus Database"
 
 msg_info "Starting Services"
