@@ -114,7 +114,7 @@ scrape_configs:
       password: "$PROMETHEUS_USERNAME"
     static_configs:
       - targets:
-          - 'http://127.0.0.1:3000'
+          - '127.0.0.1:3000'
 EOF
 $STD apk add prometheus
 msg_ok "Installed Prometheus Database"
