@@ -100,6 +100,10 @@ $STD apk add mongodb mongodb-tools
 msg_ok "Installed MongoDB Database"
 
 msg_info "Installing Prometheus Database"
+curl -LJO https://github.com/prometheus/prometheus/releases/download/v3.2.0/prometheus-3.2.0.linux-amd64.tar.gz
+mkdir -p /opt/prometheus
+tar x -f prometheus-3.2.0.linux-amd64.tar.gz -C /opt/prometheus --strip-components=1
+rm -f prometheus-3.2.0.linux-amd64.tar.gz
 PROMETHEUS_PASSWORD=$(generate_random_string 32)
 PROMETHEUS_USERNAME="ssm_prometheus_user"
 mkdir -p /etc/prometheus/
@@ -116,7 +120,7 @@ scrape_configs:
       - targets:
           - '127.0.0.1:3000'
 EOF
-$STD apk add prometheus
+pm2 start /opt/prometheus/prometheus
 msg_ok "Installed Prometheus Database"
 
 msg_info "Starting Services"
@@ -124,8 +128,6 @@ $STD rc-service redis start
 $STD rc-update add redis default
 $STD rc-service mongodb start
 $STD rc-update add mongodb default
-$STD rc-service prometheus start
-$STD rc-update add prometheus default
 msg_ok "Started Services"
 
 msg_info "Setting Up Squirrel Servers Manager"
