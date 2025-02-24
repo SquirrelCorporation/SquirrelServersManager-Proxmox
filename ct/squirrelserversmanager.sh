@@ -14,7 +14,7 @@ cat <<"EOF"
  ___/ / /_/ / /_/ / / /  / /  /  __/ /   ___/ /  __/ /   | |/ /  __/ /  (__  )  / /  / / /_/ / / / / /_/ / /_/ /  __/ /
 /____/\__, /\__,_/_/_/  /_/   \___/_/   /____/\___/_/    |___/\___/_/  /____/  /_/  /_/\__,_/_/ /_/\__,_/\__, /\___/_/
         /_/                                                                                             /____/
-Installer v1.0.9
+Installer v1.1.0
 EOF
 }
 header_info
@@ -91,8 +91,8 @@ start
 build_container
 description
 msg_info "Setting Container to Normal Resources"
-pct set $CTID -memory 2048
-pct set $CTID -cores 2
+pct set "$CTID" -memory 2048
+pct set "$CTID" -cores 2
 msg_ok "Set Container to Normal Resources"
 msg_ok "Completed Successfully!\n"
 echo -e "${APP} should be reachable by going to the following URL.
