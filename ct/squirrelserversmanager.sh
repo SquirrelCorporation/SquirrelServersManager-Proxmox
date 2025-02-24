@@ -57,9 +57,12 @@ function update_script() {
   header_info
   if [[ ! -d /opt/squirrelserversmanager ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
 
-  # Remove CTID check since it's not needed inside the container
+  # Display warning and wait for user input
+  echo -e "\n\033[1;33mWARNING:\033[0m It is highly recommended that you temporary set the container memory to 4096MB for the duration of the update"
+  echo -e "Press any key to continue or Ctrl+C to cancel..."
+  read -n 1 -s -r
+
   msg_info "Stopping ${APP}..."
-  # Remove pct commands since they won't work inside the container
   pm2 stop "squirrelserversmanager-frontend"
   pm2 stop "squirrelserversmanager-backend"
   msg_ok "${APP} stopped"
@@ -88,7 +91,7 @@ function update_script() {
   pm2 flush
   pm2 restart "squirrelserversmanager-frontend"
   pm2 restart "squirrelserversmanager-backend"
-  # Remove final pct command
+
   msg_ok "Successfully Updated ${APP}"
   exit
 }
