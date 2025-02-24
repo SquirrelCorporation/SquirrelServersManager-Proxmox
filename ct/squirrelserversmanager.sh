@@ -56,21 +56,29 @@ function default_settings() {
 function update_script() {
   header_info
   if [[ ! -d /opt/squirrelserversmanager ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
-  msg_info "Updating ${APP}"
+  msg_info "Stopping ${APP}..."
   pct set $CTID -memory 4096
   pm2 stop "squirrelserversmanager-frontend"
   pm2 stop "squirrelserversmanager-backend"
+  msg_ok "${APP} stopped"
+  msg_info "Updating SSM SharedLib..."
   cd /opt/squirrelserversmanager
   git pull
   cd /opt/squirrelserversmanager/shared-lib
   npm ci
   npm run build
+  msg_ok "SSM SharedLib updated"
+  msg_info "Updating SSM Server..."
   cd /opt/squirrelserversmanager/server
   npm ci
   npm run build
+  msg_ok "SSM Server updated"
+  msg_info "Updating SSM Client..."
   cd /opt/squirrelserversmanager/client
   npm ci
   npm run build
+  msg_ok "SSM Client updated"
+  msg_info "Restarting ${APP}..."
   pm2 flush
   pm2 restart "squirrelserversmanager-frontend"
   pm2 restart "squirrelserversmanager-backend"
