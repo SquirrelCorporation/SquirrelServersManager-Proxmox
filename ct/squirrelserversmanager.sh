@@ -57,7 +57,7 @@ function update_script() {
   header_info
   if [[ ! -d /opt/squirrelserversmanager ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
   msg_info "Stopping ${APP}..."
-  pct set $CTID -memory 4096
+  pct set "$CTID" -memory 4096
   pm2 stop "squirrelserversmanager-frontend"
   pm2 stop "squirrelserversmanager-backend"
   msg_ok "${APP} stopped"
@@ -82,7 +82,7 @@ function update_script() {
   pm2 flush
   pm2 restart "squirrelserversmanager-frontend"
   pm2 restart "squirrelserversmanager-backend"
-  pct set $CTID -memory 2048
+  pct set "$CTID" -memory 2048
   msg_ok "Successfully Updated ${APP}"
   exit
 }
