@@ -56,6 +56,10 @@ function default_settings() {
 function update_script() {
   header_info
   if [[ ! -d /opt/squirrelserversmanager ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
+  if [[ -z "$CTID" ]]; then
+    echo "Error: Could not determine CTID. Exiting."
+    exit 1
+  fi
   msg_info "Stopping ${APP}..."
   pct set "$CTID" -memory 4096
   pm2 stop "squirrelserversmanager-frontend"
