@@ -172,14 +172,14 @@ $STD npm ci
 $STD npm run build
 msg_ok "Squirrel Servers Manager Lib built"
 
-msg_info "Building & Running Squirrel Servers Manager Client"
+msg_info "Building & Running Squirrel Servers Manager Client (could take several minutes)"
 cd /opt/squirrelserversmanager/client
 $STD npm ci
 $STD npm run build
 $STD pm2 start --name="squirrelserversmanager-frontend" npm -- run serve
 msg_ok "Squirrel Servers Manager Client Built & Ran"
 
-msg_info "Building & Running Squirrel Servers Manager Server"
+msg_info "Building & Running Squirrel Servers Manager Server (could take several minutes)"
 cd /opt/squirrelserversmanager/server
 $STD npm ci
 $STD npm run build
