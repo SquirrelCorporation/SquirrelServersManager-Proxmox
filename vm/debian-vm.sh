@@ -91,15 +91,31 @@ function check_root() {
   fi
 }
 
-function pve_check() {
-  if ! pveversion | grep -Eq "pve-manager/8.[1-3]"; then
-    msg_error "This version of Proxmox Virtual Environment is not supported"
-    echo -e "Requires Proxmox Virtual Environment Version 8.1 or later."
-    echo -e "Exiting..."
-    sleep 2
-    exit
-fi
-}
+ pve_check() {
+    # Extract version number from pveversion output
+    PVE_VERSION=$(pveversion | grep -oP 'pve-manager/\K[0-9]+\.[0-9]+')
+
+    # Check if we got a version
+    if [ -z "$PVE_VERSION" ]; then
+      msg_error "Unable to determine Proxmox Virtual Environment version"
+      echo -e "Exiting..."
+      sleep 2
+      exit
+    fi
+
+    # Compare version - requires 8.1 or later
+    MAJOR_VERSION=$(echo $PVE_VERSION | cut -d. -f1)
+    MINOR_VERSION=$(echo $PVE_VERSION | cut -d. -f2)
+
+    if [ "$MAJOR_VERSION" -lt 8 ] || ([ "$MAJOR_VERSION" -eq 8 ] && [ "$MINOR_VERSION" -lt 1 ]); then
+      msg_error "This version of Proxmox Virtual Environment is not supported"
+      echo -e "Requires Proxmox Virtual Environment Version 8.1 or later."
+      echo -e "Current version: $PVE_VERSION"
+      echo -e "Exiting..."
+      sleep 2
+      exit
+    fi
+  }
 
 function arch_check() {
   if [ "$(dpkg --print-architecture)" != "amd64" ]; then
